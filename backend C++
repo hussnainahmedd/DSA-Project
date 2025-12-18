@@ -1,1 +1,70 @@
+#include <iostream>
+#include <map>
+#include <vector>
+#include <set>
+#include <fstream>
+#include <sstream>
+using namespace std;
+
+// Graph Node
+struct Node {
+    string id;
+    string name;
+    string type;
+    map<string, string> attributes;
+};
+
+// Graph Class
+class CrimeGraph {
+private:
+    map<string, Node> nodes;
+    map<string, vector<pair<string, string>>> adjList;
+
+public:
+    void addNode(string id, string name, string type, map<string, string> attrs) {
+        Node node;
+        node.id = id;
+        node.name = name;
+        node.type = type;
+        node.attributes = attrs;
+        nodes[id] = node;
+        adjList[id];
+    }
+
+    void addEdge(string from, string to, string relation) {
+        if (nodes.count(from) && nodes.count(to)) {
+            adjList[from].push_back({to, relation});
+            adjList[to].push_back({from, relation});
+        }
+    }
+
+    string listAllNodes() {
+        stringstream ss;
+        for (auto &p : nodes) {
+            ss << p.second.id << " - " << p.second.name << endl;
+        }
+        return ss.str();
+    }
+
+    string displayGraph() {
+        stringstream ss;
+        for (auto &p : adjList) {
+            for (auto &e : p.second) {
+                ss << p.first << " <-> " << e.first
+                   << " [" << e.second << "]" << endl;
+            }
+        }
+        return ss.str();
+    }
+};
+
+int main() {
+    CrimeGraph graph;
+    graph.addNode("S1", "Ali", "suspect", {});
+    graph.addNode("L1", "Market", "location", {});
+    graph.addEdge("S1", "L1", "visited");
+
+    cout << graph.displayGraph();
+    return 0;
+}
 
