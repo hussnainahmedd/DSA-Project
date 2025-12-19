@@ -1,0 +1,22 @@
+import java.util.*;
+
+public class JSONObject {
+    private Map<String, String> data = new HashMap<>();
+
+    public void put(String k, String v) {
+        data.put(k, v);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("{");
+        int i = 0;
+        for (String k : data.keySet()) {
+            sb.append("\"").append(k).append("\":\"")
+              .append(data.get(k)).append("\"");
+            if (i++ < data.size() - 1) sb.append(",");
+        }
+        sb.append("}");
+        return sb.toString();
+    }
+}
