@@ -1,214 +1,41 @@
-# DSA-Project
-Crime Investigation Analyzer project
+Crime Network Analyzer
 
-Crime Network Analyzer - MVP System
-A complete crime investigation tool using Java (Frontend) + C++ (Backend) with Graph and Tree DSA implementations.
-________________________________________
-🎯 Features
-1. Graph-Based Crime Network (C++)
-•	Nodes: Suspects and Crime Locations
-•	Edges: Relationships (friend, family, call history, visited location, accomplice, witness)
-•	Algorithms: 
-o	BFS: Find shortest connection path between suspects
-o	DFS: Deep exploration of criminal networks
-o	Graph Display: View entire network structure
-2. Case Hierarchy Tree (C++)
-•	Organize case information in tree structure
-•	Categories: Evidence, Witnesses, Suspects, Timeline
-•	Easy visualization of case components
-3. Java GUI Frontend
-•	User-friendly interface with tabs
-•	Forms for data entry
-•	Real-time analysis results
-•	Color-coded buttons and status messages
-4. File-Based Communication
-•	JSON format for requests/responses
-•	Persistent storage using text files
-•	No database required
-________________________________________
-📁 Project Structure
-CrimeNetworkAnalyzer/
-├── CrimeNetworkAnalyzer.java    # Java Frontend
-├── CrimeAnalyzer.cpp             # C++ Backend
-├── request.json                  # Communication file (auto-generated)
-├── response.json                 # Communication file (auto-generated)
-├── graph_data.txt               # Graph storage (auto-generated)
-└── case_data.txt                # Case tree storage (auto-generated)
-________________________________________
-🚀 Setup Instructions
-Step 1: Compile C++ Backend
-Windows:
-g++ -o CrimeAnalyzer CrimeAnalyzer.cpp
-CrimeAnalyzer.exe
-Linux/Mac:
-g++ -o CrimeAnalyzer CrimeAnalyzer.cpp
-./CrimeAnalyzer
-Step 2: Compile and Run Java Frontend
-javac CrimeNetworkAnalyzer.java
-java CrimeNetworkAnalyzer
-Important: Keep both programs running simultaneously!
-________________________________________
-📋 Usage Guide
-1. Add Suspects
-•	Go to "Add Suspect" tab
-•	Fill in: ID, Name, Age, Address
-•	Click "Add Suspect"
-•	Example: ID=S001, Name=John Doe, Age=35
-2. Add Crime Locations
-•	Go to "Add Crime Location" tab
-•	Fill in: ID, Location Name, Crime Type
-•	Click "Add Crime Location"
-•	Example: ID=L001, Name=Bank Downtown, Type=Robbery
-3. Add Connections
-•	Go to "Add Connection" tab
-•	Enter From ID and To ID
-•	Select relationship type
-•	Click "Add Connection"
-•	Example: S001 → S002 (friend)
-4. Analyze Network
-•	Find Shortest Path (BFS): 
-o	Enter Start Suspect ID and End Suspect ID
-o	Click "Find Shortest Path"
-o	See shortest connection path
-•	Explore Network (DFS): 
-o	Enter Start Suspect ID
-o	Click "Explore Network"
-o	See all reachable nodes
-•	Display Full Graph: 
-o	Click "Display Full Graph"
-o	View complete network structure
-5. Case Hierarchy
-•	Go to "Case Hierarchy" tab
-•	Enter Case ID
-•	Select item type (evidence, witness, suspect, timeline)
-•	Add description
-•	Click "Add Case Item"
-•	Click "View Case Hierarchy" to see organized case info
-________________________________________
-🎨 Example Workflow
-Scenario: Bank Robbery Investigation
-Step 1: Add Suspects
-ID: S001, Name: Michael Chen, Age: 32
-ID: S002, Name: Sarah Lopez, Age: 28
-ID: S003, Name: David Kim, Age: 35
-ID: S004, Name: Emma Wilson, Age: 30
-Step 2: Add Locations
-ID: L001, Name: First National Bank, Type: Robbery
-ID: L002, Name: Coffee Shop, Type: Meeting Point
-Step 3: Add Connections
-S001 → S002 (friend)
-S002 → S003 (call_history)
-S003 → S004 (family)
-S001 → L001 (visited_location)
-S002 → L002 (visited_location)
-Step 4: Analyze
-•	BFS from S001 to S004: Find shortest path 
-o	Result: S001 → S002 → S003 → S004
-•	DFS from S001: Explore all connections 
-o	Shows entire network reachable from S001
-Step 5: Case Management
-Case ID: CASE001
-- Evidence: "Security footage showing suspect at 2:15 PM"
-- Witness: "Bank teller identified suspect from lineup"
-- Suspect: "Michael Chen seen at location"
-- Timeline: "Robbery occurred at 2:00 PM on Dec 10"
-________________________________________
-🔧 Technical Details
-Data Structures Used
-1. Graph (Adjacency List)
-map<string, vector<pair<string, string>>> adjList;
-// id -> [(connected_id, relation_type)]
-2. Tree (N-ary Tree)
-struct CaseNode {
-    string type;
-    string description;
-    vector<CaseNode*> children;
-};
-Algorithms
-BFS Implementation:
-•	Time Complexity: O(V + E)
-•	Space Complexity: O(V)
-•	Used for: Shortest path finding
-DFS Implementation:
-•	Time Complexity: O(V + E)
-•	Space Complexity: O(V)
-•	Used for: Network exploration
-File Format
-Graph Data (graph_data.txt):
-NODES
-S001|John Doe|suspect|age:35|address:123 Main St
-EDGES
-S001|S002|friend
-Case Data (case_data.txt):
-CASE|CASE001
-evidence|Security footage found
-witness|Bank teller testimony
-END
-________________________________________
-🎯 Key Features Explained
-1. Shortest Path Analysis
-Find the minimum connection path between any two suspects. Useful for:
-•	Identifying intermediaries
-•	Understanding relationship chains
-•	Finding direct connections
-2. Network Exploration
-Deep dive into suspect networks starting from any point. Useful for:
-•	Discovering all connected suspects
-•	Finding hidden connections
-•	Mapping entire criminal networks
-3. Case Organization
-Hierarchical structure for case management. Useful for:
-•	Organizing evidence
-•	Tracking witnesses
-•	Managing timelines
-•	Suspect lists
-________________________________________
-⚠️ Important Notes
-1.	Keep Both Programs Running: C++ backend must run continuously to process requests
-2.	File Communication: Both programs must be in the same directory
-3.	Data Persistence: All data is saved to files automatically
-4.	No Database Required: Pure file-based storage
-5.	Real-time Updates: Changes reflect immediately after C++ processing
-________________________________________
-🐛 Troubleshooting
-Issue: "Waiting for C++ backend response..."
-•	Solution: Make sure C++ program is running
-Issue: "Node not found"
-•	Solution: Check if suspect/location ID was added correctly
-Issue: "No path found"
-•	Solution: Ensure there are connections between the suspects
-Issue: Files not updating
-•	Solution: Restart both programs and ensure same directory
-________________________________________
-🚀 Future Enhancements (Beyond MVP)
-•	Socket-based communication for real-time updates
-•	Weighted graph edges (strength of relationships)
-•	Dijkstra's algorithm for weighted shortest paths
-•	Graph visualization
-•	Export reports to PDF
-•	Multi-case management
-•	Timeline visualization
-•	Suspect photo management
-________________________________________
-📚 Learning Outcomes
-This project demonstrates:
-•	Graph DSA: Adjacency list, BFS, DFS
-•	Tree DSA: N-ary tree construction
-•	File Handling: JSON parsing, persistent storage
-•	Inter-process Communication: File-based messaging
-•	GUI Development: Java Swing
-•	Algorithm Implementation: Search algorithms
-•	Data Organization: Structured storage
-________________________________________
-👨‍💻 Development Tips
-1.	Test with small data first: Add 2-3 suspects before complex networks
-2.	Use meaningful IDs: S001, S002, L001 (S=Suspect, L=Location)
-3.	Check C++ console: It shows processing status
-4.	Data persists: Previous data loads automatically
-5.	Clear data: Delete .txt files to start fresh
-________________________________________
-📄 License
-Educational project for learning DSA concepts with real-world application.
-________________________________________
-Happy Investigating! 🕵️‍♂️
+A desktop-based crime investigation and analysis system developed using a Java Swing frontend and a C++ backend. The system is designed to model and analyze criminal networks by representing suspects and crime locations as a network. It applies core Data Structures and Algorithms concepts such as graphs, trees, stacks, queues, and file handling.
 
+This project is developed as part of the Data Structures and Algorithms (DSA) course.
+
+Project Overview
+
+The Crime Network Analyzer allows investigators to store, connect, and analyze crime-related entities. The frontend provides a graphical user interface for interaction, while the backend continuously runs as a service that processes requests sent by the frontend. Communication between the two layers is handled through JSON-based file exchange.
+
+System Architecture
+
+The system follows a two-layer architecture. The frontend is responsible for user interaction and data input, while the backend handles all processing and data management. Requests are written to a file by the frontend, which the backend detects and processes. The backend then writes the response back to a file that is read by the frontend.
+
+Main Features
+
+The system includes a user authentication mechanism with role-based access for administrators and officers. Administrators can add suspects, crime locations, and relationships between them. The system supports graph-based analysis of crime networks, including finding the shortest path between two entities and exploring the network from a given starting point.
+
+Case management is implemented using a hierarchical tree structure that allows storing evidence, witnesses, and other case-related items. Cases can be assigned to officers with priority levels, and officers can view and update the status of their assigned cases.
+
+All major system activities are recorded in an activity log with timestamps, allowing tracking of system usage and operations.
+
+Data Structures and Algorithms
+
+The crime network is implemented using a graph data structure with an adjacency list representation. Breadth First Search is used to determine the shortest connection path between entities, while Depth First Search is used to explore the network. Case records are stored using tree structures. Stacks and queues are used internally to support DFS and BFS operations. File handling is used for persistent storage of all system data.
+
+Technologies Used
+
+The frontend is developed using Java and Java Swing for the graphical interface. The backend is developed in C++ using the Standard Template Library. File-based input and output are used for data persistence and communication between components.
+
+How the System Works
+
+The backend service is started first and remains active in the background. The frontend application is then launched, allowing users to log in and perform actions. Each action generates a request that is processed by the backend. The backend updates the stored data and returns a response that is displayed to the user.
+
+Academic Significance
+
+This project demonstrates the practical application of data structures and algorithms in a real-world scenario. It highlights how graphs and trees can be used to model complex relationships and how algorithmic analysis can assist in decision-making during investigations.
+
+Future Improvements
+
+The system can be enhanced by integrating a database for improved scalability, adding real-time communication between frontend and backend, implementing data encryption for security, and providing graphical visualization of the crime network.
