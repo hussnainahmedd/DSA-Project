@@ -1,0 +1,40 @@
+
+#include <queue>
+#include <algorithm>
+
+string bfs(string start, string end) {
+    queue<string> q;
+    map<string, bool> visited;
+    map<string, string> parent;
+
+    q.push(start);
+    visited[start] = true;
+
+    while (!q.empty()) {
+        string cur = q.front();
+        q.pop();
+
+        if (cur == end) break;
+
+        for (auto &n : adjList[cur]) {
+            if (!visited[n.first]) {
+                visited[n.first] = true;
+                parent[n.first] = cur;
+                q.push(n.first);
+            }
+        }
+    }
+
+    vector<string> path;
+    for (string v = end; v != ""; v = parent[v]) {
+        path.push_back(v);
+        if (!parent.count(v)) break;
+    }
+
+    reverse(path.begin(), path.end());
+
+    stringstream ss;
+    ss << "BFS Path:\n";
+    for (auto &p : path) ss << p << " -> ";
+    return ss.str();
+}
