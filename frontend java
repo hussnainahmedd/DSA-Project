@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 
+// =========================
+// LOGIN SCREEN (MAIN CLASS)
+// =========================
 public class LoginScreen extends JFrame {
 
     private static final String DATA_DIR =
@@ -17,7 +20,7 @@ public class LoginScreen extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        JPanel panel = new JPanel(new GridLayout(6, 1, 10, 10));
+        JPanel panel = new JPanel(new GridLayout(7, 1, 10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
 
         JLabel title = new JLabel("CRIME NETWORK ANALYZER", JLabel.CENTER);
@@ -47,6 +50,7 @@ public class LoginScreen extends JFrame {
                 new CrimeNetworkAnalyzer(result[0], result[1]);
             } else {
                 status.setText("Invalid credentials!");
+                status.setForeground(Color.RED);
             }
         });
 
@@ -76,5 +80,55 @@ public class LoginScreen extends JFrame {
         } catch (IOException ignored) {}
         return null;
     }
+
+    // Application Entry Point
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(LoginScreen::new);
+    }
 }
 
+// =================================
+// MAIN APPLICATION WINDOW
+// =================================
+class CrimeNetworkAnalyzer extends JFrame {
+
+    protected final String currentUser;
+    protected final String role;
+    protected JTabbedPane tabs;
+
+    public CrimeNetworkAnalyzer(String user, String role) {
+
+        this.currentUser = user;
+        this.role = role;
+
+        setTitle("Crime Network Analyzer");
+        setSize(1100, 750);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        JPanel header = new JPanel(new BorderLayout());
+        header.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        JLabel title = new JLabel("CRIME NETWORK ANALYZER");
+        title.setFont(new Font("Arial", Font.BOLD, 24));
+
+        JLabel userLbl = new JLabel("User: " + user + " (" + role + ")");
+        userLbl.setFont(new Font("Arial", Font.PLAIN, 14));
+
+        header.add(title, BorderLayout.WEST);
+        header.add(userLbl, BorderLayout.EAST);
+
+        tabs = new JTabbedPane();
+
+        if (role.equals("admin")) {
+            tabs.add("Dashboard", new JPanel());
+            tabs.add("Manage Users", new JPanel());
+        } else {
+            tabs.add("My Cases", new JPanel());
+        }
+
+        add(header, BorderLayout.NORTH);
+        add(tabs, BorderLayout.CENTER);
+        setVisible(true);
+    }
+}
