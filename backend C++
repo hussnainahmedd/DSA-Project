@@ -1,9 +1,11 @@
 #include <iostream>
 #include <map>
 #include <vector>
+#include <stack>
 #include <set>
 #include <fstream>
 #include <sstream>
+
 using namespace std;
 
 // Graph Node
@@ -28,7 +30,7 @@ public:
         node.type = type;
         node.attributes = attrs;
         nodes[id] = node;
-        adjList[id];
+        adjList[id]; // initialize adjacency list
     }
 
     void addEdge(string from, string to, string relation) {
@@ -56,15 +58,53 @@ public:
         }
         return ss.str();
     }
+
+    // 🔹 DFS using Stack (Merged Function)
+    string dfs(string start) {
+        stack<string> st;
+        map<string, bool> visited;
+        stringstream ss;
+
+        if (!nodes.count(start)) {
+            return "Start node not found.\n";
+        }
+
+        st.push(start);
+
+        while (!st.empty()) {
+            string cur = st.top();
+            st.pop();
+
+            if (!visited[cur]) {
+                visited[cur] = true;
+                ss << cur << " ";
+
+                for (auto &n : adjList[cur]) {
+                    if (!visited[n.first]) {
+                        st.push(n.first);
+                    }
+                }
+            }
+        }
+        return ss.str();
+    }
 };
 
 int main() {
     CrimeGraph graph;
+
     graph.addNode("S1", "Ali", "suspect", {});
     graph.addNode("L1", "Market", "location", {});
-    graph.addEdge("S1", "L1", "visited");
+    graph.addNode("W1", "Shopkeeper", "witness", {});
 
-    cout << graph.displayGraph();
+    graph.addEdge("S1", "L1", "visited");
+    graph.addEdge("L1", "W1", "saw");
+
+    cout << "Graph:\n";
+    cout << graph.displayGraph() << endl;
+
+    cout << "DFS Traversal from S1:\n";
+    cout << graph.dfs("S1") << endl;
+
     return 0;
 }
-
