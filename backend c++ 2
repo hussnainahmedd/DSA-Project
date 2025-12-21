@@ -1,7 +1,54 @@
- Backend c++ 
-
+#include <iostream>
+#include <map>
+#include <vector>
 #include <queue>
+#include <sstream>
 #include <algorithm>
+
+using namespace std;
+
+/* ================= CASE TREE PART ================= */
+
+struct CaseNode {
+    string type;
+    string description;
+    vector<CaseNode*> children;
+
+    CaseNode(string t, string d) {
+        type = t;
+        description = d;
+    }
+};
+
+class CaseTree {
+private:
+    map<string, CaseNode*> cases;
+
+public:
+    void addCaseItem(string caseId, string type, string desc) {
+        if (!cases.count(caseId))
+            cases[caseId] = new CaseNode("case", caseId);
+
+        cases[caseId]->children.push_back(new CaseNode(type, desc));
+    }
+
+    string viewCase(string caseId) {
+        stringstream ss;
+        if (!cases.count(caseId))
+            return "Case not found\n";
+
+        ss << "Case ID: " << caseId << endl;
+        for (auto c : cases[caseId]->children) {
+            ss << c->type << ": " << c->description << endl;
+        }
+        return ss.str();
+    }
+};
+
+/* ================= GRAPH + BFS PART ================= */
+
+// Adjacency list for graph
+map<string, vector<pair<string, int>>> adjList;
 
 string bfs(string start, string end) {
     queue<string> q;
@@ -15,7 +62,8 @@ string bfs(string start, string end) {
         string cur = q.front();
         q.pop();
 
-        if (cur == end) break;
+        if (cur == end)
+            break;
 
         for (auto &n : adjList[cur]) {
             if (!visited[n.first]) {
@@ -26,16 +74,46 @@ string bfs(string start, string end) {
         }
     }
 
+    if (!visited[end])
+        return "No path found\n";
+
     vector<string> path;
     for (string v = end; v != ""; v = parent[v]) {
         path.push_back(v);
-        if (!parent.count(v)) break;
+        if (!parent.count(v))
+            break;
     }
 
     reverse(path.begin(), path.end());
 
     stringstream ss;
     ss << "BFS Path:\n";
-    for (auto &p : path) ss << p << " -> ";
+    for (auto &p : path)
+        ss << p << " -> ";
+    ss << "END\n";
+
     return ss.str();
+}
+
+/* ================= MAIN FUNCTION ================= */
+
+int main() {
+    // -------- Case Tree Demo --------
+    CaseTree ct;
+    ct.addCaseItem("C001", "Suspect", "Ali Khan");
+    ct.addCaseItem("C001", "Evidence", "Fingerprint found");
+    ct.addCaseItem("C001", "Officer", "Inspector Ahmed");
+
+    cout << ct.viewCase("C001") << endl;
+
+    // -------- Graph Demo --------
+    adjList["A"].push_back({"B", 1});
+    adjList["A"].push_back({"C", 1});
+    adjList["B"].push_back({"D", 1});
+    adjList["C"].push_back({"D", 1});
+    adjList["D"].push_back({"E", 1});
+
+    cout << bfs("A", "E");
+
+    return 0;
 }
