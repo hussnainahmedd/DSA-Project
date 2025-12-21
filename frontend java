@@ -1,10 +1,35 @@
+import java.util.*;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 
-// =========================
-// LOGIN SCREEN (MAIN CLASS)
-// =========================
+/* =========================
+   SIMPLE JSON OBJECT CLASS
+   ========================= */
+class JSONObject {
+    private Map<String, String> data = new HashMap<>();
+
+    public void put(String k, String v) {
+        data.put(k, v);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("{");
+        int i = 0;
+        for (String k : data.keySet()) {
+            sb.append("\"").append(k).append("\":\"")
+              .append(data.get(k)).append("\"");
+            if (i++ < data.size() - 1) sb.append(",");
+        }
+        sb.append("}");
+        return sb.toString();
+    }
+}
+
+/* =========================
+   LOGIN SCREEN (MAIN CLASS)
+   ========================= */
 public class LoginScreen extends JFrame {
 
     private static final String DATA_DIR =
@@ -87,9 +112,9 @@ public class LoginScreen extends JFrame {
     }
 }
 
-// =================================
-// MAIN APPLICATION WINDOW
-// =================================
+/* =========================
+   MAIN APPLICATION WINDOW
+   ========================= */
 class CrimeNetworkAnalyzer extends JFrame {
 
     protected final String currentUser;
