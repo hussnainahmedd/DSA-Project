@@ -267,6 +267,7 @@ flowchart LR
 | Contributor | Role |
 |:---:|:---:|
 | **Hussnain Ahmed** | Developer & Project Lead |
+| **Mahnoor Soahil** | Developer |
 
 </div>
 
